@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { db } from "~/server/db";
 
 export const dynamic = "force-dynamic";
@@ -19,21 +18,19 @@ const mockImages = [...imagesLinks, ...imagesLinks, ...imagesLinks].map(
 );
 
 export default async function HomePage() {
-  const posts = await db.query.posts.findMany();
-  console.log(posts);
+  const images = await db.query.images.findMany({
+    orderBy: (model, { desc }) => desc(model.createdAt),
+  });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
       <div className="flex flex-wrap">
-        {posts.map((post) => (
-          <div key={post.id}>{post.name}</div>
-        ))}
-        {mockImages.map(({ id, src, alt }) => (
+        {[...images, ...images, ...images].map((image, index) => (
           <div
-            key={id}
+            key={index}
             className="m-2 flex w-1/5 items-center justify-center bg-slate-400 p-2"
           >
-            <img src={src} alt={alt} />
+            <img src={image.url} alt={image.name} />
           </div>
         ))}
       </div>
