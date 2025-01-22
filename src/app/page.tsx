@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { db } from "~/server/db";
 
 const imagesLinks = [
   "https://eoa1bgd6ac.ufs.sh/f/qqPmVpKVG1LOjR2WeJzy9pvFWxCtVcKdNreBT3kOE5ZfXIgm",
@@ -15,10 +16,16 @@ const mockImages = [...imagesLinks, ...imagesLinks, ...imagesLinks].map(
   }),
 );
 
-export default function HomePage() {
+export default async function HomePage() {
+  const posts = await db.query.posts.findMany();
+  console.log(posts);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
       <div className="flex flex-wrap">
+        {posts.map((post) => (
+          <div key={post.id}>{post.name}</div>
+        ))}
         {mockImages.map(({ id, src, alt }) => (
           <div
             key={id}
