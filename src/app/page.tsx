@@ -10,9 +10,9 @@ async function Images() {
 
   return (
     <div className="flex flex-wrap">
-      {[...images, ...images, ...images].map((image, index) => (
+      {images.map((image) => (
         <div
-          key={index}
+          key={image.id}
           className="m-2 flex w-1/5 items-center justify-center bg-slate-400 p-2"
         >
           <img src={image.url} alt={image.name} />
@@ -25,12 +25,14 @@ async function Images() {
 export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 py-12">
-      <SignedOut>
-        <h2 className="h-full w-full text-center text-3xl">Please Sign In</h2>
-      </SignedOut>
-      <SignedIn>
-        <Images />
-      </SignedIn>
+      <div className="flex flex-row gap-6">
+        <SignedOut>
+          <h2 className="h-full w-full text-center text-3xl">Please Sign In</h2>
+        </SignedOut>
+        <SignedIn>
+          <Images />
+        </SignedIn>
+      </div>
     </main>
   );
 }
