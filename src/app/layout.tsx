@@ -11,6 +11,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "./_components/Navbar";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "sonner";
+import { CSPostHogProvider } from "./_analytics/provider";
 
 export const metadata: Metadata = {
   title: "A Gallery App",
@@ -29,24 +30,26 @@ export default function RootLayout(props: {
         className={`${GeistSans.variable}`}
         data-lt-installed="true"
       >
-        <NextSSRPlugin
-          /**
-           * The `extractRouterConfig` will extract **only** the route configs
-           * from the router to prevent additional information from being
-           * leaked to the client. The data passed to the client is the same
-           * as if you were to fetch `/api/uploadthing` directly.
-           */
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
-        <body>
-          <div className="grid-rows-[auto, 1fr] grid h-screen">
-            <Navbar />
-            <main className="overflow-y-scroll">{props.children}</main>
-          </div>
-          {props.modal}
-          <div id="modal-root" />
-          <Toaster richColors />
-        </body>
+        <CSPostHogProvider>
+          <NextSSRPlugin
+            /**
+             * The `extractRouterConfig` will extract **only** the route configs
+             * from the router to prevent additional information from being
+             * leaked to the client. The data passed to the client is the same
+             * as if you were to fetch `/api/uploadthing` directly.
+             */
+            routerConfig={extractRouterConfig(ourFileRouter)}
+          />
+          <body>
+            <div className="grid-rows-[auto, 1fr] grid h-screen">
+              <Navbar />
+              <main className="overflow-y-scroll">{props.children}</main>
+            </div>
+            {props.modal}
+            <div id="modal-root" />
+            <Toaster richColors />
+          </body>
+        </CSPostHogProvider>
       </html>
     </ClerkProvider>
   );
