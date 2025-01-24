@@ -10,6 +10,7 @@ import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "./_components/Navbar";
 import { ourFileRouter } from "./api/uploadthing/core";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "A Gallery App",
@@ -44,6 +45,7 @@ export default function RootLayout(props: {
           </div>
           {props.modal}
           <div id="modal-root" />
+          <Toaster richColors />
         </body>
       </html>
     </ClerkProvider>
